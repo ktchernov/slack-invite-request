@@ -67,3 +67,6 @@ signin:
     to continue."
   subtext:
     "This information will only be used to verify your email and prevent spammers."
+
+code_md_url:
+  "https://raw.githubusercontent.com/ktchernov/Code-Of-Conduct/master/README.md"

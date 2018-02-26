@@ -20,6 +20,9 @@ var path = require('path');
 var yaml = require('js-yaml');
 var async = require('async');
 var changeCase = require('change-case');
+var showdown = require('showdown');
+var cacheControl = require('express-cache-controller');
+var cachios = require('cachios');
 
 var strings = yaml.safeLoad(fs.readFileSync(path.resolve('./strings.yml')));
 
@@ -112,6 +115,24 @@ app.post('/signin', rateLimit(), function (req, res) {
 
 app.get('/thanks', validate(), function (req, res) {
   res.render('thanks', _.assign({}, strings.main, dotty.get(req, 'session.user')));
+});
+
+const codeOfConductCacheSeconds = 30 * 60;
+
+app.get('/code-of-conduct', async (req, res) => {
+  const converter = new showdown.Converter();
+
+  try {
+    const codeOfConductRes = await cachios.get(strings.code_md_url, {
+      ttl: codeOfConductCacheSeconds
+    });
+
+    const codeOfConductBody = converter.makeHtml(codeOfConductRes.data);
+    res.render('codeOfConduct', _.assign({codeOfConductBody}, strings.apply));
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
 });
 
 app.get('/apply', validate(), function (req, res) {

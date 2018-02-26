@@ -35,10 +35,6 @@ function exitWithError(err) {
   process.exit(1);
 }
 
-if (!gaToken) {
-  exitWithError('Please set GA_TOKEN environment variable.')
-}
-
 if (!slackUrl) {
   exitWithError('Please set SLACK_WEBHOOK_URL environment variable.')
 }

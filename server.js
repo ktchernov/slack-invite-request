@@ -23,6 +23,7 @@ var changeCase = require('change-case');
 var showdown = require('showdown');
 var cacheControl = require('express-cache-controller');
 var cachios = require('cachios');
+var redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 
 var strings = yaml.safeLoad(fs.readFileSync(path.resolve('./strings.yml')));
 
@@ -70,6 +71,8 @@ app.engine('.hbs', hbs({
 }));
 app.set('view engine', '.hbs');
 app.set('views', './views');
+
+app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/]));
 
 app.use(
   session({

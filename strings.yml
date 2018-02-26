@@ -29,6 +29,8 @@ apply:
       title: "Full name"
       required: true
       readonly: false
+      help:
+        "Please use your real name."
 
     email:
       name: "email"
@@ -55,10 +57,8 @@ apply:
         title: "Experience with Android"
         help:
           "Quick summary of your experience with Android"
-        required: false
+        required: true
         readonly: false
-        # if this property is defined, the input will use the defined html
-        html: <br><textarea class="form-control" id="android-experience" name="android-experience" rows="2"></textarea>
 
 signin:
   blurb: "Thanks for your interest in joining!"
